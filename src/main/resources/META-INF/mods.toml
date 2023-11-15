@@ -15,7 +15,7 @@ license="${mod_license}"
 # A list of mods - how many allowed here is determined by the individual mod loader
 [[mods]] #mandatory
 # The modid of the mod
-modId="${mod_id}" #mandatory
+modId="malumian_skies" #mandatory
 # The version number of the mod
 version="${mod_version}" #mandatory
 # A display name for the mod
@@ -33,7 +33,7 @@ authors="${mod_authors}" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description='''${mod_description}'''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
-[[dependencies.${mod_id}]] #optional
+[[dependencies.malumian_skies]] #optional
    # the modid of the dependency
    modId="forge" #mandatory
    # Does this dependency have to exist - if not, ordering below must be specified
@@ -46,10 +46,27 @@ description='''${mod_description}'''
    ordering="NONE"
    # Side this dependency is applied on - BOTH, CLIENT, or SERVER
    side="BOTH"# Here's another dependency
-[[dependencies.${mod_id}]]
+[[dependencies.malumian_skies]]
    modId="minecraft"
    mandatory=true
-   # This version range declares a minimum of the current minecraft version up to but not including the next major version
    versionRange="${minecraft_version_range}"
    ordering="NONE"
    side="BOTH"
+[[dependencies.malumian_skies]]
+modId="valkyrienskies"
+mandatory=true
+versionRange="${vs2_version}"
+ordering="AFTER"
+side="BOTH"
+[[dependencies.malumian_skies]]
+modId="malum"
+mandatory=true
+versionRange="1.5.0.1"
+ordering="NONE"
+side="BOTH"
+[[dependencies.malumian_skies]]
+modId="lodestone"
+mandatory=true
+versionRange="${lodestone_version}"
+ordering="NONE"
+side="BOTH"
