@@ -6,6 +6,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.common.Mod;
@@ -15,23 +16,25 @@ import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
+import org.valkyrienskies.malumian_skies.registry.block.entity.BlockEntityRegistry;
 import org.valkyrienskies.malumian_skies.registry.block.BlockRegistry;
 import org.valkyrienskies.malumian_skies.registry.item.ItemRegistry;
 
 import java.util.stream.Collectors;
-
-import static net.minecraftforge.versions.forge.ForgeVersion.MOD_ID;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod("malumian_skies")
 public class MalumianSkies {
 
     // Directly reference a slf4j logger
+
+    public static final String MOD_ID = "living_large";
     public static final Registrate REGISTRATE = Registrate.create(MOD_ID);
 
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public MalumianSkies() {
+        final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         // Register the setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         // Register the enqueueIMC method for modloading
@@ -41,6 +44,8 @@ public class MalumianSkies {
 
         BlockRegistry.register();
         ItemRegistry.register();
+
+        BlockEntityRegistry.register();
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
