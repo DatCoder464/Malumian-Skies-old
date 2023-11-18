@@ -55,7 +55,7 @@ description='''${mod_description}'''
 [[dependencies.malumian_skies]]
 modId="valkyrienskies"
 mandatory=true
-versionRange="${vs2_version}"
+versionRange="2.1.0-beta.12+5a40781d5d"
 ordering="AFTER"
 side="BOTH"
 [[dependencies.malumian_skies]]
@@ -67,6 +67,6 @@ side="BOTH"
 [[dependencies.malumian_skies]]
 modId="lodestone"
 mandatory=true
-versionRange="${lodestone_version}"
+versionRange="1.4.1.435"
 ordering="NONE"
 side="BOTH"
