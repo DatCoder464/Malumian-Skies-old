@@ -17,10 +17,24 @@ import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 import org.valkyrienskies.malumian_skies.registry.block.entity.BlockEntityRegistry;
-import org.valkyrienskies.malumian_skies.registry.block.BlockRegistry;
-import org.valkyrienskies.malumian_skies.registry.item.ItemRegistry;
+import org.valkyrienskies.malumian_skies.registry.block.MSBlockRegistry;
+import org.valkyrienskies.malumian_skies.registry.item.MSItemRegistry;
 
 import java.util.stream.Collectors;
+
+import static com.sammy.malum.registry.client.ParticleRegistry.PARTICLES;
+import static com.sammy.malum.registry.common.AttributeRegistry.ATTRIBUTES;
+import static com.sammy.malum.registry.common.ContainerRegistry.CONTAINERS;
+import static com.sammy.malum.registry.common.MobEffectRegistry.EFFECTS;
+import static com.sammy.malum.registry.common.SoundRegistry.SOUNDS;
+import static com.sammy.malum.registry.common.block.BlockEntityRegistry.BLOCK_ENTITY_TYPES;
+import static com.sammy.malum.registry.common.block.BlockRegistry.BLOCKS;
+import static com.sammy.malum.registry.common.entity.EntityRegistry.ENTITY_TYPES;
+import static com.sammy.malum.registry.common.item.EnchantmentRegistry.ENCHANTMENTS;
+import static com.sammy.malum.registry.common.item.ItemRegistry.ITEMS;
+import static com.sammy.malum.registry.common.recipe.RecipeSerializerRegistry.RECIPE_SERIALIZERS;
+import static com.sammy.malum.registry.common.recipe.RecipeTypeRegistry.RECIPE_TYPES;
+import static com.sammy.malum.registry.common.worldgen.FeatureRegistry.FEATURE_TYPES;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod("malumian_skies")
@@ -28,9 +42,8 @@ public class MalumianSkies {
 
     // Directly reference a slf4j logger
 
-    public static final String MOD_ID = "living_large";
+    public static final String MOD_ID = "malumian_skies";
     public static final Registrate REGISTRATE = Registrate.create(MOD_ID);
-
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public MalumianSkies() {
@@ -42,10 +55,8 @@ public class MalumianSkies {
         // Register the processIMC method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
 
-        BlockRegistry.register();
-        ItemRegistry.register();
+        ITEMS.register(modEventBus);
 
-        BlockEntityRegistry.register();
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
