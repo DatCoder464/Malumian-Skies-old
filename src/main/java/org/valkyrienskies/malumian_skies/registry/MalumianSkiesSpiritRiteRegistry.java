@@ -8,8 +8,9 @@ import org.valkyrienskies.malumian_skies.common.rite.eldritch.EldritchGravitatio
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.sammy.malum.registry.common.SpiritRiteRegistry.RITES;
+
 public class MalumianSkiesSpiritRiteRegistry {
-    public static List<MalumRiteType> RITES = new ArrayList<>();
 
     public static MalumRiteType GRAVITATIONAL_RITE = create(new GravitationalRiteType());
     public static MalumRiteType ELDRITCH_GRAVITATIONAL_RITE = create(new EldritchGravitationalRiteType());

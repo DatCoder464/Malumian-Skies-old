@@ -20,8 +20,8 @@ public class MSItemRegistry extends Items {
 
     public static final RegistryEntry<Item> HOLLOW_ALLOY = REGISTRATE.item("hollow_alloy", Item::new).register();
     public static final RegistryEntry<Item> VOLATILE_POWDER = REGISTRATE.item("lead_ingot", Item::new).register();
-    public static final RegistryEntry<Item> ARCANE_LENSE = REGISTRATE.item("Arcane Lense", Item::new).register();
-    public static final RegistryObject<SpiritShardItem> GRAVITATIONAL_SPIRIT = ITEMS.register("d", () -> new SpiritShardItem(DEFAULT_PROPERTIES(), MalumianSkiesSpiritTypeRegistry.GRAVITATIONAL_SPIRIT));
+    public static final RegistryEntry<Item> ARCANE_LENSE = REGISTRATE.item("arcane_lense", Item::new).register();
+    public static final RegistryObject<SpiritShardItem> GRAVITATIONAL_SPIRIT = ITEMS.register("gravitational_spirit", () -> new SpiritShardItem(DEFAULT_PROPERTIES(), MalumianSkiesSpiritTypeRegistry.GRAVITATIONAL_SPIRIT));
     public static void register() {
     }
 }

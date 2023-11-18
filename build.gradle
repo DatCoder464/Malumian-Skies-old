@@ -147,33 +147,33 @@ dependencies {
 
 
     // VS2
-    implementation("org.valkyrienskies:valkyrienskies-118-forge:${vs2_version}") { transitive = false }
-    implementation("org.valkyrienskies.core:api:1.1.0+2b2f93f793") { transitive = false }
+    implementation fg.deobf("org.valkyrienskies:valkyrienskies-118-forge:${vs2_version}") { transitive = false }
+    implementation fg.deobf("org.valkyrienskies.core:api:1.1.0+2b2f93f793") { transitive = false }
 
     //Funni magic
-    implementation ("curse.maven:malum-484064:4616320")
-    compileOnly ("top.theillusivec4.curios:curios-forge:${minecraft_version}-${curios_version}:api")
-    runtimeOnly ("top.theillusivec4.curios:curios-forge:${minecraft_version}-${curios_version}")
-    implementation ("team.lodestar.lodestone:lodestone:${minecraft_version}-${lodestone_version}")
+    implementation fg.deobf("curse.maven:malum-484064:4616320")
+    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${minecraft_version}-${curios_version}:api")
+    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${minecraft_version}-${curios_version}")
+    implementation fg.deobf("team.lodestar.lodestone:lodestone:${minecraft_version}-${lodestone_version}")
 
     // Kotlin
-    compileOnly ("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.21")
-    compileOnly ("org.jetbrains.kotlin:kotlin-reflect:1.7.21")
+    compileOnly fg.deobf("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.21")
+    compileOnly fg.deobf("org.jetbrains.kotlin:kotlin-reflect:1.7.21")
 
     // JEI
-    compileOnly ("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
-    runtimeOnly ("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
+    compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
+    runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
 
     // JOML
-    compileOnly ("org.joml:joml:1.10.4")
-    compileOnly ("org.joml:joml-primitives:1.10.0")
+    compileOnly fg.deobf("org.joml:joml:1.10.4")
+    compileOnly fg.deobf("org.joml:joml-primitives:1.10.0")
 
     // Registrate
     implementation fg.deobf("com.tterrag.registrate:Registrate:MC${minecraft_version}-1.1.1")
-    jarJar(group: 'com.tterrag.registrate', name: 'Registrate', version: "${minecraft_version_range}")
+    jarJar(group: 'com.tterrag.registrate', name: 'Registrate', version: "[MC1.18.2,MC1.19)")
 
     // Add Kotlin for Forge.
-    implementation "thedarkcolour:kotlinforforge:3.12.0"
+    implementation fg.deobf("thedarkcolour:kotlinforforge:3.12.0")
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 
