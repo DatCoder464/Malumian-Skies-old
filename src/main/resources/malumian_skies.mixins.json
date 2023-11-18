@@ -3,10 +3,12 @@
   "minVersion": "0.8",
   "package": "org.valkyrienskies.malumian_skies.mixin",
   "compatibilityLevel": "JAVA_8",
+  "plugin": "org.valkyrienskies.malumian_skies.mixin.ValkyrienForgeMixinConfigPlugin",
   "refmap": "malumian_skies.refmap.json",
   "mixins": [
   ],
   "client": [
+    "client.PlayerEntityModelMixin"
   ],
   "injectors": {
     "defaultRequire": 1
