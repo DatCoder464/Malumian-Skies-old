@@ -18,10 +18,11 @@ import java.util.List;
 import java.util.*;
 import java.util.function.*;
 
+import static com.sammy.malum.registry.common.SpiritTypeRegistry.SPIRITS;
+
 @SuppressWarnings("unchecked")
 @Mod.EventBusSubscriber(modid= MalumianSkies.MOD_ID, value= Dist.CLIENT, bus= Mod.EventBusSubscriber.Bus.MOD)
 public class MalumianSkiesSpiritTypeRegistry {
-    public static Map<String, MalumSpiritType> SPIRITS = new LinkedHashMap<>();
 
     public static MalumSpiritType GRAVITATIONAL_SPIRIT = create("gravitational", new Color(73, 234, 27), MSItemRegistry.GRAVITATIONAL_SPIRIT, MSBlockRegistry.MOTE_OF_GRAVITATIONAL_ARCANA);
     public static SpiritTypeProperty SPIRIT_TYPE_PROPERTY = new SpiritTypeProperty("spirit_type", SPIRITS.values());

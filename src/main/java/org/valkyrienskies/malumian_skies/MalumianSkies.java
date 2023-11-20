@@ -31,10 +31,10 @@ import static com.sammy.malum.registry.common.block.BlockEntityRegistry.BLOCK_EN
 import static com.sammy.malum.registry.common.block.BlockRegistry.BLOCKS;
 import static com.sammy.malum.registry.common.entity.EntityRegistry.ENTITY_TYPES;
 import static com.sammy.malum.registry.common.item.EnchantmentRegistry.ENCHANTMENTS;
-import static com.sammy.malum.registry.common.item.ItemRegistry.ITEMS;
 import static com.sammy.malum.registry.common.recipe.RecipeSerializerRegistry.RECIPE_SERIALIZERS;
 import static com.sammy.malum.registry.common.recipe.RecipeTypeRegistry.RECIPE_TYPES;
 import static com.sammy.malum.registry.common.worldgen.FeatureRegistry.FEATURE_TYPES;
+import static org.valkyrienskies.malumian_skies.registry.item.MSItemRegistry.ITEMS;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod("malumian_skies")
