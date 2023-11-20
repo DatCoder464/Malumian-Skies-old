@@ -12,11 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.sammy.malum.registry.common.SpiritTypeRegistry.ARCANE_SPIRIT;
-import static org.valkyrienskies.malumian_skies.registry.MalumianSkiesSpiritTypeRegistry.GRAVITATIONAL_SPIRIT;
+import static org.valkyrienskies.malumian_skies.registry.MalumianSkiesSpiritTypeRegistry.GRAVITATIONAL;
+
 
 public class GravitationalRiteType extends MalumRiteType {
     public GravitationalRiteType() {
-        super("gravitational_rite", ARCANE_SPIRIT, GRAVITATIONAL_SPIRIT, GRAVITATIONAL_SPIRIT);
+        super("gravitational_rite", ARCANE_SPIRIT, GRAVITATIONAL, GRAVITATIONAL);
     }
     List<AABB> Auras = new ArrayList<>();
 
