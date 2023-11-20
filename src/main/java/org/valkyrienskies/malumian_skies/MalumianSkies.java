@@ -55,7 +55,8 @@ public class MalumianSkies {
         // Register the processIMC method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
 
-        ITEMS.register(modEventBus);
+        MSItemRegistry.register();
+        MSBlockRegistry.register();
 
 
         // Register ourselves for server and other game events we are interested in

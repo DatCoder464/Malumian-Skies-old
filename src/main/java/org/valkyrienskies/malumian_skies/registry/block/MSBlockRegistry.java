@@ -18,15 +18,14 @@ import static org.valkyrienskies.malumian_skies.MalumianSkies.MOD_ID;
 import static org.valkyrienskies.malumian_skies.MalumianSkies.REGISTRATE;
 
 public class MSBlockRegistry extends Blocks {
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MOD_ID);
-
+    
     public static final RegistryEntry<CombustionThruster> COMBUSTION_THRUSTER = REGISTRATE.block("combustion_thruster", CombustionThruster::new)
             .register();
     public static final RegistryEntry<CombustionTank> COMBUSTION_TANK = REGISTRATE.block("combustion_tank", CombustionTank::new)
             .register();
     public static final RegistryEntry<CombustionSilo> COMBUSTION_SILO = REGISTRATE.block("combustion_silo", CombustionSilo::new)
             .register();
-    public static final RegistryObject<SpiritMoteBlock> MOTE_OF_GRAVITATIONAL_ARCANA = BLOCKS.register("mote_of_gravitational_arcana", () -> new SpiritMoteBlock(MalumBlockProperties.MANA_MOTE_BLOCK(), MalumianSkiesSpiritTypeRegistry.GRAVITATIONAL_SPIRIT).setBlockEntity(BlockEntityRegistry.MOTE_OF_MANA));
+
     public static void register() {
     }
 }
