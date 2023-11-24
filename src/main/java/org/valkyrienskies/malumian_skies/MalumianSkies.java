@@ -22,19 +22,6 @@ import org.valkyrienskies.malumian_skies.registry.item.MSItemRegistry;
 
 import java.util.stream.Collectors;
 
-import static com.sammy.malum.registry.client.ParticleRegistry.PARTICLES;
-import static com.sammy.malum.registry.common.AttributeRegistry.ATTRIBUTES;
-import static com.sammy.malum.registry.common.ContainerRegistry.CONTAINERS;
-import static com.sammy.malum.registry.common.MobEffectRegistry.EFFECTS;
-import static com.sammy.malum.registry.common.SoundRegistry.SOUNDS;
-import static com.sammy.malum.registry.common.block.BlockEntityRegistry.BLOCK_ENTITY_TYPES;
-import static com.sammy.malum.registry.common.block.BlockRegistry.BLOCKS;
-import static com.sammy.malum.registry.common.entity.EntityRegistry.ENTITY_TYPES;
-import static com.sammy.malum.registry.common.item.EnchantmentRegistry.ENCHANTMENTS;
-import static com.sammy.malum.registry.common.recipe.RecipeSerializerRegistry.RECIPE_SERIALIZERS;
-import static com.sammy.malum.registry.common.recipe.RecipeTypeRegistry.RECIPE_TYPES;
-import static com.sammy.malum.registry.common.worldgen.FeatureRegistry.FEATURE_TYPES;
-import static org.valkyrienskies.malumian_skies.registry.item.MSItemRegistry.ITEMS;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod("malumian_skies")
