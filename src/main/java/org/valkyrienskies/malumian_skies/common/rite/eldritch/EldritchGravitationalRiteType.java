@@ -19,15 +19,8 @@ public class EldritchGravitationalRiteType extends MalumRiteType {
         super("greater_gravitational_rite", ELDRITCH_SPIRIT, ARCANE_SPIRIT, AERIAL_SPIRIT, INFERNAL_SPIRIT);
     }
 
-    HashMap<Boolean, BlockPos> EldritchAuras = new HashMap<Boolean, BlockPos>();
-    Vector3d VectorRange = new Vector3d(10, 10, 10);
-
-    private BlockPos vectorBlockPosAdder(Vector3d vectorA, BlockPos vectorB) {
-        return  new BlockPos(new Vec3(
-                vectorA.x +vectorB.getX(),
-                vectorA.y +vectorB.getY(),
-                vectorA.z +vectorB.getZ()));
-    }
+    static HashMap<Boolean, BlockPos> EldritchAuras = new HashMap<Boolean, BlockPos>();
+    static Vector3d VectorRange = new Vector3d(10, 10, 10);
 
     @Override
     public MalumRiteEffect getNaturalRiteEffect() {
@@ -45,19 +38,17 @@ public class EldritchGravitationalRiteType extends MalumRiteType {
         return new MalumRiteEffect() {
             public void riteEffect(TotemBaseBlockEntity totemBase) {
                 if(totemBase.active) {
-                    Vector3d VectorRange = new Vector3d(10, 10, 10);
                     EldritchAuras.put(true, totemBase.getBlockPos());
-
                 }
             }
         };
     }
 
-    public HashMap<Boolean, BlockPos> getAuras() {
+    public static HashMap<Boolean, BlockPos> getAuras() {
         return EldritchAuras;
     }
 
-    public Vector3d getRange() {
+    public static Vector3d getRange() {
         return VectorRange;
     }
 }

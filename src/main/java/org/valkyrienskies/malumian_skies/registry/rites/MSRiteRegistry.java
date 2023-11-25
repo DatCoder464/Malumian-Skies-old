@@ -7,12 +7,13 @@ import org.valkyrienskies.malumian_skies.common.rite.eldritch.EldritchGravitatio
 
 import static com.sammy.malum.registry.common.SpiritRiteRegistry.RITES;
 
-public class MSRiteRegistry {
-    public static MalumRiteType GRAVITATIONAL_RITE = create(new GravitationalRiteType());
-    public static MalumRiteType ELDRITCH_GRAVITATIONAL_RITE = create(new EldritchGravitationalRiteType());
+public class   MSRiteRegistry {
+    public static MalumRiteType GRAVITATIONAL_RITE = SpiritRiteRegistry.create(new GravitationalRiteType());
+    public static MalumRiteType ELDRITCH_GRAVITATIONAL_RITE = SpiritRiteRegistry.create(new EldritchGravitationalRiteType());
 
-    public static MalumRiteType create(MalumRiteType type) {
-        RITES.add(type);
-        return type;
+
+    public static void init() {
+        System.out.print("hi");
     }
+
 }

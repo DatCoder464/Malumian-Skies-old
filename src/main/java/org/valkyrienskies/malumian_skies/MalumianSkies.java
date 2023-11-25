@@ -16,9 +16,11 @@ import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
+import org.valkyrienskies.malumian_skies.common.ship.GravController;
 import org.valkyrienskies.malumian_skies.registry.block.entity.BlockEntityRegistry;
 import org.valkyrienskies.malumian_skies.registry.block.MSBlockRegistry;
 import org.valkyrienskies.malumian_skies.registry.item.MSItemRegistry;
+import org.valkyrienskies.malumian_skies.registry.rites.MSRiteRegistry;
 
 import java.util.stream.Collectors;
 
@@ -48,6 +50,7 @@ public class MalumianSkies {
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
+        MSRiteRegistry.init();
     }
 
     private void setup(final FMLCommonSetupEvent event) {

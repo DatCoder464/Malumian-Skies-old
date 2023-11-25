@@ -20,15 +20,8 @@ public class GravitationalRiteType extends MalumRiteType {
         super("gravitational_rite", ARCANE_SPIRIT, AERIAL_SPIRIT, INFERNAL_SPIRIT);
     }
 
-    HashMap<Boolean, BlockPos> Auras = new HashMap<Boolean, BlockPos>();
-    Vector3d VectorRange = new Vector3d(10, 10, 10);
-
-    private BlockPos vectorBlockPosAdder(Vector3d vectorA, BlockPos vectorB) {
-        return  new BlockPos(new Vec3(
-                vectorA.x +vectorB.getX(),
-                vectorA.y +vectorB.getY(),
-                vectorA.z +vectorB.getZ()));
-    }
+    static HashMap<Boolean, BlockPos> Auras = new HashMap<Boolean, BlockPos>();
+    static Vector3d VectorRange = new Vector3d(10, 10, 10);
 
     @Override
     public MalumRiteEffect getNaturalRiteEffect() {
@@ -46,19 +39,17 @@ public class GravitationalRiteType extends MalumRiteType {
         return new MalumRiteEffect() {
             public void riteEffect(TotemBaseBlockEntity totemBase) {
                 if(totemBase.active) {
-                    Vector3d VectorRange = new Vector3d(10, 10, 10);
                     Auras.put(true, totemBase.getBlockPos());
-
                 }
             }
         };
     }
 
-    public HashMap<Boolean, BlockPos> getAuras() {
+    public static HashMap<Boolean, BlockPos> getAuras() {
         return Auras;
     }
 
-    public Vector3d getRange() {
+    public static Vector3d getRange() {
         return VectorRange;
     }
 }

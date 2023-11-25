@@ -1,6 +1,7 @@
 package org.valkyrienskies.malumian_skies.common.ship;
 
 
+import com.sammy.malum.core.systems.rites.MalumRiteType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -11,6 +12,7 @@ import org.valkyrienskies.core.api.ships.ServerShip;
 import org.valkyrienskies.core.impl.api.ShipForcesInducer;
 import org.valkyrienskies.malumian_skies.common.rite.GravitationalRiteType;
 import org.valkyrienskies.malumian_skies.common.rite.eldritch.EldritchGravitationalRiteType;
+import org.valkyrienskies.malumian_skies.registry.rites.MSRiteRegistry;
 
 
 public class GravController implements ShipForcesInducer {
@@ -43,26 +45,24 @@ public class GravController implements ShipForcesInducer {
     public void applyForces(@NotNull PhysShip physShip) {
         double mass;
         Vector3d forces;
-        GravitationalRiteType gravitationalRiteType = new GravitationalRiteType();
-            BlockPos trueBasicPos = gravitationalRiteType.getAuras().get(true);
-            BlockPos falseBasicPos = gravitationalRiteType.getAuras().get(false);
-        EldritchGravitationalRiteType eldritchGravitationalRiteType = new EldritchGravitationalRiteType();
-            BlockPos trueEldritchPos = eldritchGravitationalRiteType.getAuras().get(true);
-            BlockPos falseEldritchPos = eldritchGravitationalRiteType.getAuras().get(true);
+        BlockPos trueBasicPos = GravitationalRiteType.getAuras().get(true);
+        BlockPos falseBasicPos = GravitationalRiteType.getAuras().get(false);
+        BlockPos trueEldritchPos = EldritchGravitationalRiteType.getAuras().get(true);
+        BlockPos falseEldritchPos = EldritchGravitationalRiteType.getAuras().get(true);
 
-        for (Boolean rite : gravitationalRiteType.getAuras().keySet()) {
+        for (Boolean rite : GravitationalRiteType.getAuras().keySet()) {
             if (rite) {
                 if (shipChecker(
-                        new AABB(vectorBlockPosAdder(gravitationalRiteType.getRange(), falseBasicPos),
-                                 vectorBlockPosAdder(gravitationalRiteType.getRange().mul(-1,-1,-1), falseBasicPos)),
+                        new AABB(vectorBlockPosAdder(GravitationalRiteType.getRange(), falseBasicPos),
+                                 vectorBlockPosAdder(GravitationalRiteType.getRange().mul(-1,-1,-1), falseBasicPos)),
                         new Vector3d(physShip.getTransform().getPositionInWorld()))) {
                     mass = ship.getInertiaData().getMass();
                     forces = new Vector3d(0, mass * 10, 0);
                     physShip.applyInvariantForce(forces);
                 }
             } else if (shipChecker(
-                    new AABB(vectorBlockPosAdder(gravitationalRiteType.getRange(), trueBasicPos),
-                             vectorBlockPosAdder(gravitationalRiteType.getRange().mul(-1,-1,-1), trueBasicPos)),
+                    new AABB(vectorBlockPosAdder(GravitationalRiteType.getRange(), trueBasicPos),
+                             vectorBlockPosAdder(GravitationalRiteType.getRange().mul(-1,-1,-1), trueBasicPos)),
                     new Vector3d(physShip.getTransform().getPositionInWorld()))) {
                 mass = ship.getInertiaData().getMass();
                 forces = new Vector3d(0, mass * 20, 0);
@@ -70,19 +70,19 @@ public class GravController implements ShipForcesInducer {
             }
         }
 
-        for (Boolean rite : eldritchGravitationalRiteType.getAuras().keySet()) {
+        for (Boolean rite : EldritchGravitationalRiteType.getAuras().keySet()) {
             if (rite) {
                 if (shipChecker(
-                        new AABB(vectorBlockPosAdder(eldritchGravitationalRiteType.getRange(), falseEldritchPos),
-                                 vectorBlockPosAdder(eldritchGravitationalRiteType.getRange().mul(-1,-1,-1), falseEldritchPos)),
+                        new AABB(vectorBlockPosAdder(EldritchGravitationalRiteType.getRange(), falseEldritchPos),
+                                 vectorBlockPosAdder(EldritchGravitationalRiteType.getRange().mul(-1,-1,-1), falseEldritchPos)),
                         new Vector3d(physShip.getTransform().getPositionInWorld()))) {
                     mass = ship.getInertiaData().getMass();
                     forces = new Vector3d(0, mass * 10, 0);
                     physShip.applyInvariantForce(forces);
                 }
             } else if (shipChecker(
-                    new AABB(vectorBlockPosAdder(eldritchGravitationalRiteType.getRange(), trueEldritchPos),
-                             vectorBlockPosAdder(eldritchGravitationalRiteType.getRange().mul(-1,-1,-1), trueEldritchPos)),
+                    new AABB(vectorBlockPosAdder(EldritchGravitationalRiteType.getRange(), trueEldritchPos),
+                             vectorBlockPosAdder(EldritchGravitationalRiteType.getRange().mul(-1,-1,-1), trueEldritchPos)),
                     new Vector3d(physShip.getTransform().getPositionInWorld()))) {
                 mass = ship.getInertiaData().getMass();
                 Vector3d shipPosRelativetoBlockPos = new Vector3d(
@@ -101,5 +101,9 @@ public class GravController implements ShipForcesInducer {
     }
     public GravController(ServerShip ship) {
         this.ship = ship;
+    }
+
+    public MalumRiteType getRite() {
+        return MSRiteRegistry.GRAVITATIONAL_RITE;
     }
 }
