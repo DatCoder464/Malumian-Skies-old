@@ -20,6 +20,9 @@ public class GravitationalRiteType extends MalumRiteType {
         super("gravitational_rite", ARCANE_SPIRIT, AERIAL_SPIRIT, INFERNAL_SPIRIT);
     }
 
+    HashMap<Boolean, BlockPos> Auras = new HashMap<Boolean, BlockPos>();
+    Vector3d VectorRange = new Vector3d(10, 10, 10);
+
     private BlockPos vectorBlockPosAdder(Vector3d vectorA, BlockPos vectorB) {
         return  new BlockPos(new Vec3(
                 vectorA.x +vectorB.getX(),
@@ -27,16 +30,12 @@ public class GravitationalRiteType extends MalumRiteType {
                 vectorA.z +vectorB.getZ()));
     }
 
-    HashMap<Boolean, AABB> Auras = new HashMap<Boolean, AABB>();
-
     @Override
     public MalumRiteEffect getNaturalRiteEffect() {
-
         return new MalumRiteEffect() {
             public void riteEffect(TotemBaseBlockEntity totemBase) {
                 if(totemBase.active) {
-                    Vector3d VectorRange = new Vector3d(10, 10, 10);
-                    Auras.put(false, new AABB(vectorBlockPosAdder(VectorRange, totemBase.getBlockPos()), vectorBlockPosAdder(VectorRange.mul(-1,-1,-1), totemBase.getBlockPos())));
+                    Auras.put(false, totemBase.getBlockPos());
                 }
             }
         };
@@ -48,13 +47,18 @@ public class GravitationalRiteType extends MalumRiteType {
             public void riteEffect(TotemBaseBlockEntity totemBase) {
                 if(totemBase.active) {
                     Vector3d VectorRange = new Vector3d(10, 10, 10);
-                    Auras.put(true, new AABB(vectorBlockPosAdder(VectorRange, totemBase.getBlockPos()), vectorBlockPosAdder(VectorRange.mul(-1,-1,-1), totemBase.getBlockPos())));
+                    Auras.put(true, totemBase.getBlockPos());
+
                 }
             }
         };
     }
 
-    public HashMap<Boolean, AABB> getAuras() {
+    public HashMap<Boolean, BlockPos> getAuras() {
         return Auras;
+    }
+
+    public Vector3d getRange() {
+        return VectorRange;
     }
 }
