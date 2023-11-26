@@ -13,7 +13,6 @@ public class   MSRiteRegistry {
 
 
     public static void init() {
-        System.out.print("hi");
+        System.out.print("rites_work");
     }
-
 }

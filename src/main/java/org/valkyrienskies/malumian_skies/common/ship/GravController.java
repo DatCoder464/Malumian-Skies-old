@@ -7,21 +7,25 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3d;
+import org.joml.Vector3dc;
 import org.valkyrienskies.core.api.ships.PhysShip;
 import org.valkyrienskies.core.api.ships.ServerShip;
 import org.valkyrienskies.core.impl.api.ShipForcesInducer;
 import org.valkyrienskies.malumian_skies.common.rite.GravitationalRiteType;
 import org.valkyrienskies.malumian_skies.common.rite.eldritch.EldritchGravitationalRiteType;
-import org.valkyrienskies.malumian_skies.registry.rites.MSRiteRegistry;
+
+import java.util.List;
 
 
 public class GravController implements ShipForcesInducer {
     private final ServerShip ship;
-
+    BlockPos trueBasicPos = GravitationalRiteType.getAuras().get(true);
+    BlockPos falseBasicPos = GravitationalRiteType.getAuras().get(false);
+    BlockPos trueEldritchPos = EldritchGravitationalRiteType.getAuras().get(true);
+    BlockPos falseEldritchPos = EldritchGravitationalRiteType.getAuras().get(true);
 
     public boolean shipChecker(AABB aabb, Vector3d point) {
         boolean isInsideAnyAABB = false;
-
         if (
                 point.x >= aabb.minX && point.x <= aabb.maxX &&
                 point.y >= aabb.minY && point.y <= aabb.maxY &&
@@ -41,20 +45,14 @@ public class GravController implements ShipForcesInducer {
                 vectorA.z +vectorB.getZ()));
     }
 
-
     public void applyForces(@NotNull PhysShip physShip) {
         double mass;
-        Vector3d forces;
-        BlockPos trueBasicPos = GravitationalRiteType.getAuras().get(true);
-        BlockPos falseBasicPos = GravitationalRiteType.getAuras().get(false);
-        BlockPos trueEldritchPos = EldritchGravitationalRiteType.getAuras().get(true);
-        BlockPos falseEldritchPos = EldritchGravitationalRiteType.getAuras().get(true);
-
+        Vector3dc forces = new Vector3d(0,0,0);
         for (Boolean rite : GravitationalRiteType.getAuras().keySet()) {
             if (rite) {
                 if (shipChecker(
                         new AABB(vectorBlockPosAdder(GravitationalRiteType.getRange(), falseBasicPos),
-                                 vectorBlockPosAdder(GravitationalRiteType.getRange().mul(-1,-1,-1), falseBasicPos)),
+                        vectorBlockPosAdder(GravitationalRiteType.getRange().mul(-1,-1,-1), falseBasicPos)),
                         new Vector3d(physShip.getTransform().getPositionInWorld()))) {
                     mass = ship.getInertiaData().getMass();
                     forces = new Vector3d(0, mass * 10, 0);
@@ -77,8 +75,7 @@ public class GravController implements ShipForcesInducer {
                                  vectorBlockPosAdder(EldritchGravitationalRiteType.getRange().mul(-1,-1,-1), falseEldritchPos)),
                         new Vector3d(physShip.getTransform().getPositionInWorld()))) {
                     mass = ship.getInertiaData().getMass();
-                    forces = new Vector3d(0, mass * 10, 0);
-                    physShip.applyInvariantForce(forces);
+                    forces = forces.add(mass * 0, mass * 10, mass * 0, new Vector3d( 0, mass * 10,  0));
                 }
             } else if (shipChecker(
                     new AABB(vectorBlockPosAdder(EldritchGravitationalRiteType.getRange(), trueEldritchPos),
@@ -103,7 +100,11 @@ public class GravController implements ShipForcesInducer {
         this.ship = ship;
     }
 
-    public MalumRiteType getRite() {
-        return MSRiteRegistry.GRAVITATIONAL_RITE;
+    public ServerShip getShip() {
+        return ship;
+    }
+
+    public static void init() {
+        System.out.print("grav_works");
     }
 }
