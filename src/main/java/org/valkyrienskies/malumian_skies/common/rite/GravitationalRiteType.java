@@ -103,7 +103,7 @@ public class GravitationalRiteType extends MalumRiteType {
         }
     }
 
-    GravController control;
+    static GravController control;
     {
         if(ships != null) {
             for (Ship value : ships) {
@@ -111,5 +111,9 @@ public class GravitationalRiteType extends MalumRiteType {
                 control = ship.getAttachment(GravController.class);
             }
         }
+    }
+
+    public static GravController getControl() {
+        return control;
     }
 }

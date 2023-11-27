@@ -1,9 +1,8 @@
 package org.valkyrienskies.malumian_skies.common.ship;
 
 
-import com.sammy.malum.core.systems.rites.MalumRiteType;
+
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3d;
@@ -12,15 +11,13 @@ import org.valkyrienskies.core.api.ships.PhysShip;
 import org.valkyrienskies.core.api.ships.ServerShip;
 import org.valkyrienskies.core.impl.api.ShipForcesInducer;
 import org.valkyrienskies.malumian_skies.common.rite.GravitationalRiteType;
-import org.valkyrienskies.malumian_skies.common.rite.eldritch.EldritchGravitationalRiteType;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class GravController implements ShipForcesInducer {
-    private final ServerShip ship;
-    private Vector3d forceSum;
+    private final ServerShip ship = GravitationalRiteType.getControl().ship;
     public static RiteData riteType;
 
     public Vector3d SumVectors(List<Vector3dc> forces) {
@@ -38,6 +35,7 @@ public class GravController implements ShipForcesInducer {
                 vectorA.z +vectorB.getZ()));
     }
 
+    @Override
     public void applyForces(@NotNull PhysShip physShip) {
         List<Vector3dc> forces = new ArrayList<>();
         if(riteType != null){
@@ -62,19 +60,11 @@ public class GravController implements ShipForcesInducer {
                 }
             }
         }
-        forceSum = SumVectors(forces);
+        Vector3d forceSum = SumVectors(forces);
         physShip.applyInvariantForce(forceSum);
-    }
-
-    public GravController(ServerShip ship) {
-        this.ship = ship;
     }
 
     public static void setRiteType(RiteData newRiteType) {
         riteType = newRiteType;
-    }
-
-    public static void init() {
-        System.out.print("grav_works");
     }
 }
