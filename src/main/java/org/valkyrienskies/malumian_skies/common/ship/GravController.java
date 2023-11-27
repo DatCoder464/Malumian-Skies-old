@@ -14,31 +14,24 @@ import org.valkyrienskies.core.impl.api.ShipForcesInducer;
 import org.valkyrienskies.malumian_skies.common.rite.GravitationalRiteType;
 import org.valkyrienskies.malumian_skies.common.rite.eldritch.EldritchGravitationalRiteType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class GravController implements ShipForcesInducer {
     private final ServerShip ship;
-    BlockPos trueBasicPos = GravitationalRiteType.getAuras().get(true);
-    BlockPos falseBasicPos = GravitationalRiteType.getAuras().get(false);
-    BlockPos trueEldritchPos = EldritchGravitationalRiteType.getAuras().get(true);
-    BlockPos falseEldritchPos = EldritchGravitationalRiteType.getAuras().get(true);
+    private Vector3d forceSum;
+    public static RiteData riteType;
 
-    public boolean shipChecker(AABB aabb, Vector3d point) {
-        boolean isInsideAnyAABB = false;
-        if (
-                point.x >= aabb.minX && point.x <= aabb.maxX &&
-                point.y >= aabb.minY && point.y <= aabb.maxY &&
-                point.z >= aabb.minZ && point.z <= aabb.maxZ) {
-            isInsideAnyAABB = true;
-        } else {
-            isInsideAnyAABB = false;
+    public Vector3d SumVectors(List<Vector3dc> forces) {
+        Vector3d forceSum = new Vector3d();
+        for(Vector3dc force : forces) {
+            forceSum = new Vector3d(forceSum.x + force.x(), forceSum.y + force.y(), forceSum.z + force.z());
         }
-
-        return isInsideAnyAABB;
+        return forceSum;
     }
 
-    private BlockPos vectorBlockPosAdder(Vector3d vectorA, BlockPos vectorB) {
+    public static BlockPos vectorBlockPosAdder(Vector3d vectorA, BlockPos vectorB) {
         return  new BlockPos(new Vec3(
                 vectorA.x +vectorB.getX(),
                 vectorA.y +vectorB.getY(),
@@ -46,62 +39,39 @@ public class GravController implements ShipForcesInducer {
     }
 
     public void applyForces(@NotNull PhysShip physShip) {
-        double mass;
-        Vector3dc forces = new Vector3d(0,0,0);
-        for (Boolean rite : GravitationalRiteType.getAuras().keySet()) {
-            if (rite) {
-                if (shipChecker(
-                        new AABB(vectorBlockPosAdder(GravitationalRiteType.getRange(), falseBasicPos),
-                        vectorBlockPosAdder(GravitationalRiteType.getRange().mul(-1,-1,-1), falseBasicPos)),
-                        new Vector3d(physShip.getTransform().getPositionInWorld()))) {
-                    mass = ship.getInertiaData().getMass();
-                    forces = new Vector3d(0, mass * 10, 0);
-                    physShip.applyInvariantForce(forces);
+        List<Vector3dc> forces = new ArrayList<>();
+        if(riteType != null){
+            if (!riteType.eldritch) {
+                if (!riteType.corrupted) {
+                    forces.add(new Vector3d(0, ship.getInertiaData().getMass() * 10, 0));
+                } else {
+                    forces.add( new Vector3d(0, ship.getInertiaData().getMass() * 20, 0));
                 }
-            } else if (shipChecker(
-                    new AABB(vectorBlockPosAdder(GravitationalRiteType.getRange(), trueBasicPos),
-                             vectorBlockPosAdder(GravitationalRiteType.getRange().mul(-1,-1,-1), trueBasicPos)),
-                    new Vector3d(physShip.getTransform().getPositionInWorld()))) {
-                mass = ship.getInertiaData().getMass();
-                forces = new Vector3d(0, mass * 20, 0);
-                physShip.applyInvariantForce(forces);
+            } else {
+                if (!riteType.corrupted) {
+                } else {
+               //     Vector3d shipPosRelativetoBlockPos = new Vector3d(
+               //             physShip.getTransform().getPositionInWorld().x() - trueEldritchPos.getX(),
+               //             physShip.getTransform().getPositionInWorld().y() - trueEldritchPos.getY(),
+               //             physShip.getTransform().getPositionInWorld().z() - trueEldritchPos.getZ());
+               //     Vector3d vectorDirection = new Vector3d(
+               //             shipPosRelativetoBlockPos.x-(Math.sqrt(Math.sqrt(shipPosRelativetoBlockPos.x*shipPosRelativetoBlockPos.x+shipPosRelativetoBlockPos.y*shipPosRelativetoBlockPos.y)+shipPosRelativetoBlockPos.z)/shipPosRelativetoBlockPos.x),
+               //             shipPosRelativetoBlockPos.y-(Math.sqrt(Math.sqrt(shipPosRelativetoBlockPos.x*shipPosRelativetoBlockPos.x+shipPosRelativetoBlockPos.y*shipPosRelativetoBlockPos.y)+shipPosRelativetoBlockPos.z)/shipPosRelativetoBlockPos.y),
+               //             shipPosRelativetoBlockPos.z-(Math.sqrt(Math.sqrt(shipPosRelativetoBlockPos.x*shipPosRelativetoBlockPos.x+shipPosRelativetoBlockPos.y*shipPosRelativetoBlockPos.y)+shipPosRelativetoBlockPos.z)/shipPosRelativetoBlockPos.z));
+               //     forces.add(new Vector3d(vectorDirection.x, ship.getInertiaData().getMass() * 10 + shipPosRelativetoBlockPos.y, vectorDirection.z));
+                }
             }
         }
-
-        for (Boolean rite : EldritchGravitationalRiteType.getAuras().keySet()) {
-            if (rite) {
-                if (shipChecker(
-                        new AABB(vectorBlockPosAdder(EldritchGravitationalRiteType.getRange(), falseEldritchPos),
-                                 vectorBlockPosAdder(EldritchGravitationalRiteType.getRange().mul(-1,-1,-1), falseEldritchPos)),
-                        new Vector3d(physShip.getTransform().getPositionInWorld()))) {
-                    mass = ship.getInertiaData().getMass();
-                    forces = forces.add(mass * 0, mass * 10, mass * 0, new Vector3d( 0, mass * 10,  0));
-                }
-            } else if (shipChecker(
-                    new AABB(vectorBlockPosAdder(EldritchGravitationalRiteType.getRange(), trueEldritchPos),
-                             vectorBlockPosAdder(EldritchGravitationalRiteType.getRange().mul(-1,-1,-1), trueEldritchPos)),
-                    new Vector3d(physShip.getTransform().getPositionInWorld()))) {
-                mass = ship.getInertiaData().getMass();
-                Vector3d shipPosRelativetoBlockPos = new Vector3d(
-                        physShip.getTransform().getPositionInWorld().x() - trueEldritchPos.getX(),
-                        physShip.getTransform().getPositionInWorld().y() - trueEldritchPos.getY(),
-                        physShip.getTransform().getPositionInWorld().z() - trueEldritchPos.getZ());
-                Vector3d vectorDirection = new Vector3d(
-                        shipPosRelativetoBlockPos.x-(Math.sqrt(Math.sqrt(shipPosRelativetoBlockPos.x*shipPosRelativetoBlockPos.x+shipPosRelativetoBlockPos.y*shipPosRelativetoBlockPos.y)+shipPosRelativetoBlockPos.z)/shipPosRelativetoBlockPos.x),
-                        shipPosRelativetoBlockPos.y-(Math.sqrt(Math.sqrt(shipPosRelativetoBlockPos.x*shipPosRelativetoBlockPos.x+shipPosRelativetoBlockPos.y*shipPosRelativetoBlockPos.y)+shipPosRelativetoBlockPos.z)/shipPosRelativetoBlockPos.y),
-                        shipPosRelativetoBlockPos.z-(Math.sqrt(Math.sqrt(shipPosRelativetoBlockPos.x*shipPosRelativetoBlockPos.x+shipPosRelativetoBlockPos.y*shipPosRelativetoBlockPos.y)+shipPosRelativetoBlockPos.z)/shipPosRelativetoBlockPos.z));
-                forces = new Vector3d(vectorDirection.x, mass * 10 + shipPosRelativetoBlockPos.y, vectorDirection.z);
-                physShip.applyInvariantForce(forces);
-            }
-        }
-
+        forceSum = SumVectors(forces);
+        physShip.applyInvariantForce(forceSum);
     }
+
     public GravController(ServerShip ship) {
         this.ship = ship;
     }
 
-    public ServerShip getShip() {
-        return ship;
+    public static void setRiteType(RiteData newRiteType) {
+        riteType = newRiteType;
     }
 
     public static void init() {
