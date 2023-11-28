@@ -3,9 +3,12 @@ package org.valkyrienskies.malumian_skies.common.rite;
 import com.sammy.malum.common.block.curiosities.totem.TotemBaseBlockEntity;
 import com.sammy.malum.core.systems.rites.MalumRiteEffect;
 import com.sammy.malum.core.systems.rites.MalumRiteType;
+import kotlin.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Tuple;
 import net.minecraft.world.phys.AABB;
+import org.apache.commons.lang3.tuple.Triple;
 import org.joml.Vector3d;
 import org.valkyrienskies.core.api.ships.ServerShip;
 import org.valkyrienskies.core.api.ships.Ship;
@@ -13,6 +16,7 @@ import org.valkyrienskies.malumian_skies.common.ship.GravController;
 import org.valkyrienskies.malumian_skies.common.ship.RiteData;
 import org.valkyrienskies.mod.common.VSGameUtilsKt;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,7 +29,7 @@ public class GravitationalRiteType extends MalumRiteType {
     }
     static ServerLevel totemBaseServerLevel;
     public TotemBaseBlockEntity riteTotemBase;
-    static HashMap<ServerLevel, List<AABB>> Auras;
+    static List<Triple<RiteData, ServerLevel, AABB>> Auras = new ArrayList<>();
     static Vector3d VectorRange = new Vector3d(10, 10, 10);
 
     public AABB blockPostoAABB(BlockPos blockPos) {
@@ -39,14 +43,7 @@ public class GravitationalRiteType extends MalumRiteType {
                 if (totemBase.active) {
                     totemBaseServerLevel = ((ServerLevel) totemBase.getLevel());
                     riteTotemBase = totemBase;
-                    {
-                        List<AABB> AABBs = null;
-                        for (BlockPos blockPos : totemBase.poles) {
-                            AABBs.add(blockPostoAABB(blockPos));
-                        }
-                        Auras.put(totemBaseServerLevel, AABBs);
-                        GravController.setRiteType(RiteData.BasicNatural);
-                    }
+                    { Auras.add(Triple.of(RiteData.BasicNatural, totemBaseServerLevel, blockPostoAABB(totemBase.getBlockPos()))); }
                 }
             }
         };
@@ -59,20 +56,13 @@ public class GravitationalRiteType extends MalumRiteType {
                 if (totemBase.active) {
                     totemBaseServerLevel = ((ServerLevel) totemBase.getLevel());
                     riteTotemBase = totemBase;
-                    {
-                        List<AABB> AABBs = null;
-                        for (BlockPos blockPos : totemBase.poles) {
-                            AABBs.add(blockPostoAABB(blockPos));
-                        }
-                        Auras.put(totemBaseServerLevel, AABBs);
-                        GravController.setRiteType(RiteData.BasicCorrupted);
-                    }
+                    { Auras.add(Triple.of(RiteData.BasicCorrupted, totemBaseServerLevel, blockPostoAABB(totemBase.getBlockPos()))); }
                 }
             }
         };
     }
 
-    public static HashMap<ServerLevel, List<AABB>> getAuras() {
+    public static List<Triple<RiteData, ServerLevel, AABB>> getAuras() {
         return Auras;
     }
 
@@ -87,10 +77,8 @@ public class GravitationalRiteType extends MalumRiteType {
     Iterable<Ship> ships;
     {
         if(GravitationalRiteType.getAuras() != null) {
-            for (List<AABB> aabbs : GravitationalRiteType.getAuras().values()) {
-                for (AABB aabb : aabbs) {
-                    ships = VSGameUtilsKt.getShipsIntersecting(getTotemBaseServerLevel(), aabb);
-                }
+            for (Triple<RiteData, ServerLevel, AABB> aabbs : GravitationalRiteType.getAuras()) {
+                ships = VSGameUtilsKt.getShipsIntersecting(getTotemBaseServerLevel(), aabbs.getRight());
             }
         }
     }

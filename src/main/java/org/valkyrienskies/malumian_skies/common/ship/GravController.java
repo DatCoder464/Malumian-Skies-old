@@ -10,6 +10,7 @@ import org.joml.Vector3dc;
 import org.valkyrienskies.core.api.ships.PhysShip;
 import org.valkyrienskies.core.api.ships.ServerShip;
 import org.valkyrienskies.core.impl.api.ShipForcesInducer;
+import org.valkyrienskies.core.impl.game.ships.PhysShipImpl;
 import org.valkyrienskies.malumian_skies.common.rite.GravitationalRiteType;
 
 import java.util.ArrayList;
@@ -17,8 +18,7 @@ import java.util.List;
 
 
 public class GravController implements ShipForcesInducer {
-    private final ServerShip ship = GravitationalRiteType.getControl().ship;
-    public static RiteData riteType;
+    public RiteData riteType;
 
     public Vector3d SumVectors(List<Vector3dc> forces) {
         Vector3d forceSum = new Vector3d();
@@ -35,15 +35,21 @@ public class GravController implements ShipForcesInducer {
                 vectorA.z +vectorB.getZ()));
     }
 
+    public static GravController getOrCreate(ServerShip ship) {
+        if (ship.getAttachment(GravController.class) == null)
+            ship.saveAttachment(GravController.class, new GravController()); // copied from clockwork
+        return ship.getAttachment(GravController.class);
+    }
+
     @Override
-    public void applyForces(@NotNull PhysShip physShip) {
+    public void applyForces(@NotNull PhysShip physShip) { // only getting called on ships created in the range after activation
         List<Vector3dc> forces = new ArrayList<>();
         if(riteType != null){
             if (!riteType.eldritch) {
                 if (!riteType.corrupted) {
-                    forces.add(new Vector3d(0, ship.getInertiaData().getMass() * 10, 0));
+                    forces.add(new Vector3d(0, 10000, 0));
                 } else {
-                    forces.add( new Vector3d(0, ship.getInertiaData().getMass() * 20, 0));
+                    forces.add( new Vector3d(0,  20000, 0));
                 }
             } else {
                 if (!riteType.corrupted) {
@@ -64,7 +70,8 @@ public class GravController implements ShipForcesInducer {
         physShip.applyInvariantForce(forceSum);
     }
 
-    public static void setRiteType(RiteData newRiteType) {
+    public GravController setRiteType(RiteData newRiteType) {
         riteType = newRiteType;
+        return this;
     }
 }

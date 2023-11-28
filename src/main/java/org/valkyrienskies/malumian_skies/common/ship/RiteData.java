@@ -1,9 +1,11 @@
 package org.valkyrienskies.malumian_skies.common.ship;
 
+import net.minecraft.server.level.ServerLevel;
+
 public enum RiteData {
     BasicNatural(false, false),
-    EldritchNatural(true, false),
-    BasicCorrupted(false, true),
+    EldritchNatural(false, true),
+    BasicCorrupted(true, false),
     EldritchCorrupted(true, true);
 
     final boolean corrupted;
