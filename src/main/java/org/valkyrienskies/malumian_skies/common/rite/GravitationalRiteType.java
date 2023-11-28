@@ -27,14 +27,9 @@ public class GravitationalRiteType extends MalumRiteType {
     public GravitationalRiteType() {
         super("gravitational_rite", ARCANE_SPIRIT, AERIAL_SPIRIT, INFERNAL_SPIRIT);
     }
-    static ServerLevel totemBaseServerLevel;
+    ServerLevel totemBaseServerLevel;
     public TotemBaseBlockEntity riteTotemBase;
-    static List<Triple<RiteData, ServerLevel, AABB>> Auras = new ArrayList<>();
-    static Vector3d VectorRange = new Vector3d(10, 10, 10);
-
-    public AABB blockPostoAABB(BlockPos blockPos) {
-        return new AABB(GravController.vectorBlockPosAdder(VectorRange, blockPos), GravController.vectorBlockPosAdder(VectorRange.mul(-1,-1,-1), blockPos));
-    }
+    static List<Triple<RiteData, ServerLevel, BlockPos>> Auras = new ArrayList<>();
 
     @Override
     public MalumRiteEffect getNaturalRiteEffect() {
@@ -43,7 +38,7 @@ public class GravitationalRiteType extends MalumRiteType {
                 if (totemBase.active) {
                     totemBaseServerLevel = ((ServerLevel) totemBase.getLevel());
                     riteTotemBase = totemBase;
-                    { Auras.add(Triple.of(RiteData.BasicNatural, totemBaseServerLevel, blockPostoAABB(totemBase.getBlockPos()))); }
+                    { Auras.add(Triple.of(RiteData.BasicNatural, totemBaseServerLevel, totemBase.getBlockPos())); }
                 }
             }
         };
@@ -56,42 +51,29 @@ public class GravitationalRiteType extends MalumRiteType {
                 if (totemBase.active) {
                     totemBaseServerLevel = ((ServerLevel) totemBase.getLevel());
                     riteTotemBase = totemBase;
-                    { Auras.add(Triple.of(RiteData.BasicCorrupted, totemBaseServerLevel, blockPostoAABB(totemBase.getBlockPos()))); }
+                    { Auras.add(Triple.of(RiteData.BasicCorrupted, totemBaseServerLevel, totemBase.getBlockPos())); }
                 }
             }
         };
     }
 
-    public static List<Triple<RiteData, ServerLevel, AABB>> getAuras() {
+    public static List<Triple<RiteData, ServerLevel, BlockPos>> getAuras() {
         return Auras;
     }
 
-    public static ServerLevel getTotemBaseServerLevel() {
+    public ServerLevel getTotemBaseServerLevel() {
         return totemBaseServerLevel;
     }
-
-    public static Vector3d getRange() {
-        return VectorRange;
-    }
-
     Iterable<Ship> ships;
     {
         if(GravitationalRiteType.getAuras() != null) {
-            for (Triple<RiteData, ServerLevel, AABB> aabbs : GravitationalRiteType.getAuras()) {
-                ships = VSGameUtilsKt.getShipsIntersecting(getTotemBaseServerLevel(), aabbs.getRight());
+            for (Triple<RiteData, ServerLevel, BlockPos> aabbs : GravitationalRiteType.getAuras()) {
+                ships = VSGameUtilsKt.getShipsIntersecting(getTotemBaseServerLevel(), new AABB(GravController.vectorBlockPosAdder(new Vector3d(10, 10, 10), aabbs.getRight()), GravController.vectorBlockPosAdder(new Vector3d(10, 10, 10).mul(-1,-1,-1), aabbs.getRight())));
             }
         }
     }
 
-    public BlockPos getRitePos(boolean corrupted) {
-        if(!corrupted) {
-            return corruptedEffect.getRiteEffectCenter(riteTotemBase);
-        } else {
-            return effect.getRiteEffectCenter(riteTotemBase);
-        }
-    }
-
-    static GravController control;
+    GravController control;
     {
         if(ships != null) {
             for (Ship value : ships) {
@@ -99,9 +81,5 @@ public class GravitationalRiteType extends MalumRiteType {
                 control = ship.getAttachment(GravController.class);
             }
         }
-    }
-
-    public static GravController getControl() {
-        return control;
     }
 }

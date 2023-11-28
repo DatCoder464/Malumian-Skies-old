@@ -49,20 +49,29 @@ public class GravController implements ShipForcesInducer {
                 if (!riteType.corrupted) {
                     forces.add(new Vector3d(0, 10000, 0));
                 } else {
-                    forces.add( new Vector3d(0,  20000, 0));
+                    Vector3d shipPosRelativetoBlockPos = new Vector3d(
+                            physShip.getTransform().getPositionInWorld().x(),
+                            physShip.getTransform().getPositionInWorld().y(),
+                            physShip.getTransform().getPositionInWorld().z());
+                    Vector3d vectorDirection = new Vector3d(
+                            shipPosRelativetoBlockPos.x-(Math.sqrt(Math.sqrt(shipPosRelativetoBlockPos.x*shipPosRelativetoBlockPos.x+shipPosRelativetoBlockPos.y*shipPosRelativetoBlockPos.y)+shipPosRelativetoBlockPos.z)/shipPosRelativetoBlockPos.x),
+                            shipPosRelativetoBlockPos.y-(Math.sqrt(Math.sqrt(shipPosRelativetoBlockPos.x*shipPosRelativetoBlockPos.x+shipPosRelativetoBlockPos.y*shipPosRelativetoBlockPos.y)+shipPosRelativetoBlockPos.z)/shipPosRelativetoBlockPos.y),
+                            shipPosRelativetoBlockPos.z-(Math.sqrt(Math.sqrt(shipPosRelativetoBlockPos.x*shipPosRelativetoBlockPos.x+shipPosRelativetoBlockPos.y*shipPosRelativetoBlockPos.y)+shipPosRelativetoBlockPos.z)/shipPosRelativetoBlockPos.z));
+                    forces.add(new Vector3d(vectorDirection.x, vectorDirection.y, vectorDirection.z));
                 }
             } else {
                 if (!riteType.corrupted) {
+                    forces.add( new Vector3d(0,  20000, 0));
                 } else {
-               //     Vector3d shipPosRelativetoBlockPos = new Vector3d(
-               //             physShip.getTransform().getPositionInWorld().x() - trueEldritchPos.getX(),
-               //             physShip.getTransform().getPositionInWorld().y() - trueEldritchPos.getY(),
-               //             physShip.getTransform().getPositionInWorld().z() - trueEldritchPos.getZ());
-               //     Vector3d vectorDirection = new Vector3d(
-               //             shipPosRelativetoBlockPos.x-(Math.sqrt(Math.sqrt(shipPosRelativetoBlockPos.x*shipPosRelativetoBlockPos.x+shipPosRelativetoBlockPos.y*shipPosRelativetoBlockPos.y)+shipPosRelativetoBlockPos.z)/shipPosRelativetoBlockPos.x),
-               //             shipPosRelativetoBlockPos.y-(Math.sqrt(Math.sqrt(shipPosRelativetoBlockPos.x*shipPosRelativetoBlockPos.x+shipPosRelativetoBlockPos.y*shipPosRelativetoBlockPos.y)+shipPosRelativetoBlockPos.z)/shipPosRelativetoBlockPos.y),
-               //             shipPosRelativetoBlockPos.z-(Math.sqrt(Math.sqrt(shipPosRelativetoBlockPos.x*shipPosRelativetoBlockPos.x+shipPosRelativetoBlockPos.y*shipPosRelativetoBlockPos.y)+shipPosRelativetoBlockPos.z)/shipPosRelativetoBlockPos.z));
-               //     forces.add(new Vector3d(vectorDirection.x, ship.getInertiaData().getMass() * 10 + shipPosRelativetoBlockPos.y, vectorDirection.z));
+                    Vector3d shipPosRelativetoBlockPos = new Vector3d(
+                            physShip.getTransform().getPositionInWorld().x(),
+                            physShip.getTransform().getPositionInWorld().y(),
+                            physShip.getTransform().getPositionInWorld().z());
+                    Vector3d vectorDirection = new Vector3d(
+                            shipPosRelativetoBlockPos.x-(Math.sqrt(Math.sqrt(shipPosRelativetoBlockPos.x*shipPosRelativetoBlockPos.x+shipPosRelativetoBlockPos.y*shipPosRelativetoBlockPos.y)+shipPosRelativetoBlockPos.z)/shipPosRelativetoBlockPos.x),
+                            shipPosRelativetoBlockPos.y-(Math.sqrt(Math.sqrt(shipPosRelativetoBlockPos.x*shipPosRelativetoBlockPos.x+shipPosRelativetoBlockPos.y*shipPosRelativetoBlockPos.y)+shipPosRelativetoBlockPos.z)/shipPosRelativetoBlockPos.y),
+                            shipPosRelativetoBlockPos.z-(Math.sqrt(Math.sqrt(shipPosRelativetoBlockPos.x*shipPosRelativetoBlockPos.x+shipPosRelativetoBlockPos.y*shipPosRelativetoBlockPos.y)+shipPosRelativetoBlockPos.z)/shipPosRelativetoBlockPos.z));
+                    forces.add(new Vector3d(-vectorDirection.x, -vectorDirection.y, -vectorDirection.z));
                 }
             }
         }
