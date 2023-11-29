@@ -29,7 +29,8 @@ public class GravitationalRiteType extends MalumRiteType {
     }
     ServerLevel totemBaseServerLevel;
     public TotemBaseBlockEntity riteTotemBase;
-    static List<Triple<RiteData, ServerLevel, BlockPos>> Auras = new ArrayList<>();
+    static List<Triple<RiteData, ServerLevel, BlockPos>> auras = new ArrayList<>();
+
 
     @Override
     public MalumRiteEffect getNaturalRiteEffect() {
@@ -38,7 +39,7 @@ public class GravitationalRiteType extends MalumRiteType {
                 if (totemBase.active) {
                     totemBaseServerLevel = ((ServerLevel) totemBase.getLevel());
                     riteTotemBase = totemBase;
-                    { Auras.add(Triple.of(RiteData.BasicNatural, totemBaseServerLevel, totemBase.getBlockPos())); }
+                    { auras.add(Triple.of(RiteData.BasicNatural, totemBaseServerLevel, totemBase.getBlockPos())); }
                 }
             }
         };
@@ -51,14 +52,15 @@ public class GravitationalRiteType extends MalumRiteType {
                 if (totemBase.active) {
                     totemBaseServerLevel = ((ServerLevel) totemBase.getLevel());
                     riteTotemBase = totemBase;
-                    { Auras.add(Triple.of(RiteData.BasicCorrupted, totemBaseServerLevel, totemBase.getBlockPos())); }
+                    { auras.add(Triple.of(RiteData.BasicCorrupted, totemBaseServerLevel, totemBase.getBlockPos())); }
                 }
             }
         };
     }
 
-    public static List<Triple<RiteData, ServerLevel, BlockPos>> getAuras() {
-        return Auras;
+    static public List<Triple<RiteData, ServerLevel, BlockPos>> updateAuras() {
+        auras
+        return auras;
     }
 
     public ServerLevel getTotemBaseServerLevel() {
@@ -66,8 +68,8 @@ public class GravitationalRiteType extends MalumRiteType {
     }
     Iterable<Ship> ships;
     {
-        if(GravitationalRiteType.getAuras() != null) {
-            for (Triple<RiteData, ServerLevel, BlockPos> aabbs : GravitationalRiteType.getAuras()) {
+        if(GravitationalRiteType.updateAuras() != null) {
+            for (Triple<RiteData, ServerLevel, BlockPos> aabbs : GravitationalRiteType.updateAuras()) {
                 ships = VSGameUtilsKt.getShipsIntersecting(getTotemBaseServerLevel(), new AABB(GravController.vectorBlockPosAdder(new Vector3d(10, 10, 10), aabbs.getRight()), GravController.vectorBlockPosAdder(new Vector3d(10, 10, 10).mul(-1,-1,-1), aabbs.getRight())));
             }
         }

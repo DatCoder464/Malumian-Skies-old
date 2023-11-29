@@ -9,14 +9,15 @@ import org.apache.commons.lang3.tuple.Triple;
 import org.valkyrienskies.core.api.ships.ServerShip;
 import org.valkyrienskies.core.api.ships.Ship;
 import org.valkyrienskies.malumian_skies.common.rite.GravitationalRiteType;
+import org.valkyrienskies.malumian_skies.common.rite.eldritch.EldritchGravitationalRiteType;
 import org.valkyrienskies.mod.common.VSGameUtilsKt;
 
 
 public class EventHandler {
     @SubscribeEvent
     public static void serverTick(TickEvent.ServerTickEvent event) {
-        if(GravitationalRiteType.getAuras() != null) {
-            for (Triple<RiteData, ServerLevel, BlockPos> dataTriple : GravitationalRiteType.getAuras()) {
+        if(GravitationalRiteType.updateAuras() != null && EldritchGravitationalRiteType.updateAuras() != null) {
+            for (Triple<RiteData, ServerLevel, BlockPos> dataTriple : GravitationalRiteType.updateAuras()) {
                 for (Ship ship : VSGameUtilsKt.getShipsIntersecting(dataTriple.getMiddle(), dataTriple.getRight())) {
                     final ServerShip serverShip = (ServerShip) ship;
                     GravController.getOrCreate(serverShip).setRiteType(dataTriple.getLeft());

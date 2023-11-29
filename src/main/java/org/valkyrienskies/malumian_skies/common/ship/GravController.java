@@ -36,8 +36,9 @@ public class GravController implements ShipForcesInducer {
     }
 
     public static GravController getOrCreate(ServerShip ship) {
-        if (ship.getAttachment(GravController.class) == null)
-            ship.saveAttachment(GravController.class, new GravController()); // copied from clockwork
+        if (ship.getAttachment(GravController.class) == null) {
+            ship.saveAttachment(GravController.class, new GravController());
+        }
         return ship.getAttachment(GravController.class);
     }
 
