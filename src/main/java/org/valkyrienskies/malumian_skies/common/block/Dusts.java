@@ -4,6 +4,7 @@ import com.sammy.malum.registry.common.item.ItemRegistry;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.Tags;
+import org.valkyrienskies.malumian_skies.registry.block.MSBlockRegistry;
 import org.valkyrienskies.malumian_skies.registry.item.MSItemRegistry;
 
 import java.util.Arrays;
@@ -27,7 +28,8 @@ public enum Dusts {
     PrimordialSoup(ItemRegistry.PRIMORDIAL_SOUP.get()),
     EthericNitrate(ItemRegistry.ETHERIC_NITRATE.get()),
     VividNitrate(ItemRegistry.VIVID_NITRATE.get()),
-    VolatilePowder(MSItemRegistry.VOLATILE_POWDER.get());
+    VolatilePowder(MSItemRegistry.VOLATILE_POWDER.get()),
+    BlightedSand(MSBlockRegistry.BLIGHTED_SAND.get().asItem());
 
     final Item dust;
     Dusts(Item dust) {

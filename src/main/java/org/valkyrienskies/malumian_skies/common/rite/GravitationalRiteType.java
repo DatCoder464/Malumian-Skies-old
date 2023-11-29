@@ -3,10 +3,8 @@ package org.valkyrienskies.malumian_skies.common.rite;
 import com.sammy.malum.common.block.curiosities.totem.TotemBaseBlockEntity;
 import com.sammy.malum.core.systems.rites.MalumRiteEffect;
 import com.sammy.malum.core.systems.rites.MalumRiteType;
-import kotlin.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.Tuple;
 import net.minecraft.world.phys.AABB;
 import org.apache.commons.lang3.tuple.Triple;
 import org.joml.Vector3d;
@@ -17,7 +15,6 @@ import org.valkyrienskies.malumian_skies.common.ship.RiteData;
 import org.valkyrienskies.mod.common.VSGameUtilsKt;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import static com.sammy.malum.registry.common.SpiritTypeRegistry.*;
@@ -58,8 +55,15 @@ public class GravitationalRiteType extends MalumRiteType {
         };
     }
 
-    static public List<Triple<RiteData, ServerLevel, BlockPos>> updateAuras() {
-        auras
+    public void updateAuras() {
+        List<Triple<RiteData, ServerLevel, BlockPos>> tempAuras = auras;
+        auras.clear();
+        getCorruptedEffect();
+        getNaturalRiteEffect();
+        auras = tempAuras;
+    }
+
+    public static List<Triple<RiteData, ServerLevel, BlockPos>> getAuras() {
         return auras;
     }
 
@@ -68,8 +72,8 @@ public class GravitationalRiteType extends MalumRiteType {
     }
     Iterable<Ship> ships;
     {
-        if(GravitationalRiteType.updateAuras() != null) {
-            for (Triple<RiteData, ServerLevel, BlockPos> aabbs : GravitationalRiteType.updateAuras()) {
+        if(getAuras() != null) {
+            for (Triple<RiteData, ServerLevel, BlockPos> aabbs : getAuras()) {
                 ships = VSGameUtilsKt.getShipsIntersecting(getTotemBaseServerLevel(), new AABB(GravController.vectorBlockPosAdder(new Vector3d(10, 10, 10), aabbs.getRight()), GravController.vectorBlockPosAdder(new Vector3d(10, 10, 10).mul(-1,-1,-1), aabbs.getRight())));
             }
         }

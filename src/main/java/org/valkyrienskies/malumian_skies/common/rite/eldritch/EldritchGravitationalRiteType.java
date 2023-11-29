@@ -24,7 +24,7 @@ import static com.sammy.malum.registry.common.SpiritTypeRegistry.*;
 
 public class EldritchGravitationalRiteType extends MalumRiteType {
     public EldritchGravitationalRiteType() {
-        super("gravitational_rite", ARCANE_SPIRIT, AERIAL_SPIRIT, INFERNAL_SPIRIT);
+        super("gravitational_rite", ELDRITCH_SPIRIT, ARCANE_SPIRIT, AERIAL_SPIRIT, INFERNAL_SPIRIT);
     }
     private ServerLevel totemBaseServerLevel;
     static List<Triple<RiteData, ServerLevel, BlockPos>> auras = new ArrayList<>();
@@ -53,16 +53,20 @@ public class EldritchGravitationalRiteType extends MalumRiteType {
         };
     }
 
+    public void updateAuras() {
+        List<Triple<RiteData, ServerLevel, BlockPos>> tempAuras = auras;
+        auras.clear();
+        getCorruptedEffect();
+        getNaturalRiteEffect();
+        auras = tempAuras;
+    }
+
     public static List<Triple<RiteData, ServerLevel, BlockPos>> getAuras() {
         return auras;
     }
 
     public ServerLevel getTotemBaseServerLevel() {
         return totemBaseServerLevel;
-    }
-
-    static public List<Triple<RiteData, ServerLevel, BlockPos>> updateAuras() {
-        return auras;
     }
 
     Iterable<Ship> ships;
