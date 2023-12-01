@@ -97,10 +97,6 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
     maven {
-        name = "Registrate"
-        url = "https://maven.tterrag.com/"
-    }
-    maven {
         name = "Valkyrien Skies Internal"
         url = 'https://maven.valkyrienskies.org'
     }
@@ -167,10 +163,6 @@ dependencies {
     // JOML
     compileOnly fg.deobf("org.joml:joml:1.10.4")
     compileOnly fg.deobf("org.joml:joml-primitives:1.10.0")
-
-    // Registrate
-    implementation fg.deobf("com.tterrag.registrate:Registrate:MC${minecraft_version}-1.1.1")
-    jarJar(group: 'com.tterrag.registrate', name: 'Registrate', version: "[MC1.18.2,MC1.19)")
 
     // Add Kotlin for Forge.
     implementation fg.deobf("thedarkcolour:kotlinforforge:3.12.0")

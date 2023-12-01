@@ -2,22 +2,32 @@ package org.valkyrienskies.malumian_skies.registry.item;
 
 
 
-import com.tterrag.registrate.util.entry.RegistryEntry;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
+import org.valkyrienskies.malumian_skies.registry.tab.MSTabRegistry;
 
-import static org.valkyrienskies.malumian_skies.MalumianSkies.REGISTRATE;
+import static org.valkyrienskies.malumian_skies.MalumianSkies.MOD_ID;
 
 @SuppressWarnings("unused")
 public class MSItemRegistry extends Items {
 
-    public static final RegistryEntry<Item> VOLATILE_POWDER = REGISTRATE.item("hallowed_lead_ingot", Item::new).register();
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MOD_ID);
 
-    public static final RegistryEntry<Item> HALLOWED_LEAD_INGOT = REGISTRATE.item("hallowed_lead_ingot", Item::new).register();
-    public static final RegistryEntry<Item> SPECTRAL_INGOT = REGISTRATE.item("spectral_ingot", Item::new).register();
+    public static Item.Properties DEFAULT_PROPERTIES() {
+        return new Item.Properties().tab(MSTabRegistry.CONTENT);
+    }
 
-    public static final RegistryEntry<Item> ARCANE_LENSE = REGISTRATE.item("arcane_lense", Item::new).register();
+    public static final RegistryObject<Item> VOLATILE_POWDER = ITEMS.register("volatile_powder", () -> new Item(DEFAULT_PROPERTIES()));
 
-    public static void register() {
+    public static final RegistryObject<Item> HALLOWED_LEAD_INGOT = ITEMS.register("hallowed_lead_ingot", () -> new Item(DEFAULT_PROPERTIES()));
+    public static final RegistryObject<Item> SPECTRAL_INGOT = ITEMS.register("spectral_ingot", () -> new Item(DEFAULT_PROPERTIES()));
+
+    public static final RegistryObject<Item> ARCANE_LENSE = ITEMS.register("arcane_lense", () -> new Item(DEFAULT_PROPERTIES()));
+
+    public static void register(IEventBus modEventBus) {
     }
 }

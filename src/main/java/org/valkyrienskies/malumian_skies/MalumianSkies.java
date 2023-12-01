@@ -1,7 +1,6 @@
 package org.valkyrienskies.malumian_skies;
 
 import com.mojang.logging.LogUtils;
-import com.tterrag.registrate.Registrate;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.MinecraftForge;
@@ -23,6 +22,7 @@ import org.valkyrienskies.malumian_skies.common.ship.GravController;
 import org.valkyrienskies.malumian_skies.registry.block.MSBlockRegistry;
 import org.valkyrienskies.malumian_skies.registry.item.MSItemRegistry;
 import org.valkyrienskies.malumian_skies.registry.rites.MSRiteRegistry;
+import org.valkyrienskies.malumian_skies.registry.tab.MSTabRegistry;
 
 import java.util.stream.Collectors;
 
@@ -34,7 +34,6 @@ public class MalumianSkies {
     // Directly reference a slf4j logger
 
     public static final String MOD_ID = "malumian_skies";
-    public static final Registrate REGISTRATE = Registrate.create(MOD_ID);
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public MalumianSkies() {
@@ -46,8 +45,9 @@ public class MalumianSkies {
         // Register the processIMC method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
 
-        MSItemRegistry.register();
-        MSBlockRegistry.register();
+        MSItemRegistry.register(modEventBus);
+        MSBlockRegistry.register(modEventBus);
+        MSTabRegistry.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(EventHandler.class);
